@@ -50,3 +50,8 @@ Stand up the Supabase project, write migrations + RLS, seed it from the existing
   5. `npm run seed`
 - `package.json` claim in `lock.md` is for orchestrator review (added `@supabase/supabase-js`, `tsx`, `seed` script).
 
+## Status
+
+**ready to merge** — branch `backend-supabase` pushed at commit `e827a99`. Schema + RLS + seed + client + read API in place; `npm run typecheck` clean. Orchestrator merges to `main`, then runs `supabase link` → `supabase db push` → `npm run seed` (creds required; see Blockers above).
+
+
