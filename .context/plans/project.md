@@ -1,28 +1,37 @@
-# Project: 0 -> 1 AI Marketer (Peec AI Track)
+# Project: SWARM (Peec AI Track)
 
 ## One-liner
-An AI-powered tool that helps an early-stage brand win distribution against bigger competitors, using Peec AI's visibility data across AI search engines.
+Find every conversation on the internet where your brand should show up — obvious and non-obvious — and help your team engage in your brand's authentic voice.
 
 ## Who we're building for
-- **Peec AI** — a monitoring platform that tracks brand visibility across AI search engines (ChatGPT, Perplexity, Gemini, Google AI Overviews, Claude, Copilot, Grok)
-- **End user: Early-stage brand / marketer** — needs to understand where they're invisible in AI search and what to do about it
+- **End user**: Small marketing team (2-5 people) at an early-stage brand competing against giants
+- **Demo brand**: Attio vs HubSpot/Salesforce (CRM category)
 
 ## The thesis
-AI is compressing product, hiring, and even fundraising advantages — distribution becomes the moat. Early-stage brands are invisible in AI search results. When consumers ask ChatGPT, Perplexity, or Gemini for product recommendations, established competitors dominate the citations. Small brands don't know where the gaps are, what content to create, or which AI engines to prioritize.
+"Go where the attention is." Content and search are increasingly filtered by LLMs and algorithms. AI engines learn what to recommend from the internet — Reddit threads, LinkedIn posts, blog comments. If your brand isn't in those conversations, you're invisible to AI and to the next generation of buyers. A 3-person team can't compete with HubSpot's army — but an AI tool can make those 3 people omnipresent, like Duolingo's social team powered by AI.
 
-## Example brands (test projects provided by Peec AI)
-- **Nothing Phone** vs Apple & Samsung — design-first phones, needs to dominate attention & trust
-- **Attio** vs Salesforce & HubSpot — modern CRM, needs mindshare from discovery to retention
-- **BYD** vs Tesla & legacy automakers — top EV seller in units, still the outsider brand
+## Core concept
+SWARM is an offensive tool, not a monitoring dashboard. It:
+1. Uses **Peec AI** to identify which topics you're invisible on in AI search
+2. Uses **Tavily** to find live conversations on LinkedIn, Reddit, X about those topics (+ adjacent/cultural)
+3. Uses **Gemini** to score relevance (including non-obvious connections) and learn your brand voice
+4. Presents an **opportunity feed** where team members pick conversations, get voice-aware draft replies, and engage
 
-## What Peec AI gives us
-The Peec AI MCP provides:
-- **Visibility monitoring** across 7+ AI search engines
-- **Competitive analysis** — share of voice, sentiment, citation frequency vs competitors
-- **Content intelligence** — which URLs and domains get cited, what the AI engines actually read
-- **Trend analysis** — patterns by date, model, topic, country
-- **Peec Actions** — opportunity-scored recommendations (owned pages, editorial coverage, reference sites, UGC)
-- **Source inspection** — pull the scraped markdown of any cited URL to see exactly what an AI engine read
+The non-obvious angle is key — like Duolingo commenting on breakup posts, not just language learning. The AI finds adjacent and cultural conversations where a clever brand can show up.
+
+## The flywheel
+Peec detects invisibility → SWARM finds conversations → Team engages → More brand mentions → AI engines learn → Visibility improves → repeat
+
+## Partner tech (3 required)
+1. **Google DeepMind (Gemini)** — query generation, relevance scoring, brand voice learning, draft generation
+2. **Tavily** — web search across LinkedIn, Reddit, X for live conversations
+3. **Entire** — agent traceability
+
+## Side challenge
+Aikido (Most Secure Build) — free 1,000 EUR, just connect repo
+
+## Full product spec
+See [product-concept.md](./product-concept.md)
 
 ## The hackathon track
 Peec AI Track at Big Berlin Hack 2026. Prize: 2,500 EUR.
