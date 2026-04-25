@@ -6,7 +6,7 @@ When you need to edit a file outside your ownership zone (`ownership.md`), add a
 
 | File | Claimed by | Branch | Reason | Claimed at |
 |---|---|---|---|---|
-| _none_ | | | | |
+| `package.json` | backend-supabase | `backend-supabase` | add `@supabase/supabase-js` (runtime dep for `src/lib/supabase.ts` + `src/services/api.ts`); add `tsx` (dev) for `supabase/seed.ts` | 2026-04-26 |
 
 ## How to claim
 

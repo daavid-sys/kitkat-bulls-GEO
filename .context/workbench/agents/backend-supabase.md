@@ -30,4 +30,23 @@ Stand up the Supabase project, write migrations + RLS, seed it from the existing
 
 ## Log
 
-- _empty — agent has not started yet._
+- **2026-04-26** — picked up the slice. Read CLAUDE.md, full-plan.md, workbench docs.
+- **2026-04-26** — `supabase init` ran (config.toml + .gitignore generated). `supabase link --project-ref pjyrhjbkpxuomfvaubkk` failed: `SUPABASE_ACCESS_TOKEN` not set in env. Skipped link; not blocking — orchestrator runs link + push when creds land. See blockers below.
+- **2026-04-26** — wrote `supabase/migrations/0001_init.sql` (full schema: profiles, brands, topics, visibility_runs, context_chunks vector(768) + ivfflat cosine index, agent_runs, tasks (kind enum), drafts (unique on task_id, autobump updated_at)). `tasks.source_url NOT NULL` per the spec.
+- **2026-04-26** — wrote `supabase/migrations/0002_rls.sql`: brand-owner-only on every brand-scoped table via `is_brand_owner(uuid)` security-definer helper; profiles self-only; drafts joined through tasks. RLS uses `auth.uid()`.
+- **2026-04-26** — wrote `supabase/seed.ts` (idempotent — clears the demo brand by deterministic UUID, then re-inserts). Seeds: Attio brand, 5 topics, 5 visibility_runs (Attio's own brandByTopic), 12 tasks (kind=opportunity from `attio-curated.json`), 12 prefilled drafts (curated `draftScaffold` so demo never depends on a live Gemini call), 8 ATTIO context chunks embedded via Gemini `text-embedding-004` (768d → pgvector literal). Topic UUIDs derived deterministically from peec topic ids so cross-table refs survive reruns.
+- **2026-04-26** — claimed `package.json` in `lock.md`; ran `npm install @supabase/supabase-js` (runtime) + `tsx` (dev). Added `npm run seed` script.
+- **2026-04-26** — wrote `src/lib/supabase.ts` (singleton on `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY`; warns instead of throwing at import).
+- **2026-04-26** — wrote `src/services/api.ts` read-only: `getBrand`, `getInbox` (sorted by `estimated_lift × score` desc with optional kind/topic/platform/dismissed/limit filters), `getTask`, `getAgentRuns`, `getDraftFor`, `getApiStatus` (HEAD probe, never throws). Row types declared in-file to keep `src/types/index.ts` untouched.
+- **2026-04-26** — `npm run typecheck` clean.
+
+## Blockers (for orchestrator/federico)
+
+- `supabase link` + `supabase db push` not run from this branch: `SUPABASE_ACCESS_TOKEN` is unset in env (and the agent must not touch `.env`). Migrations are in `supabase/migrations/` and ready — orchestrator should:
+  1. `export SUPABASE_ACCESS_TOKEN=…`
+  2. `npx supabase link --project-ref pjyrhjbkpxuomfvaubkk`
+  3. `npx supabase db push`
+  4. `export SUPABASE_URL=…; export SUPABASE_SERVICE_ROLE_KEY=…; export GEMINI_API_KEY=…`
+  5. `npm run seed`
+- `package.json` claim in `lock.md` is for orchestrator review (added `@supabase/supabase-js`, `tsx`, `seed` script).
+
