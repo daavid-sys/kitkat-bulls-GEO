@@ -11,7 +11,7 @@ Cleanup complete. v2 parallel-agent work (UI polish, live APIs + snapshot, curat
 | Branch              | Owner     | Status   | Reads                                         | Blocks                           |
 |---------------------|-----------|----------|-----------------------------------------------|----------------------------------|
 | `agent-arch`        | this chat | orchestrator | all                                       | (merges others; resolves locks)  |
-| `backend-supabase`  | TBD       | pending  | full-plan.md, agents/backend-supabase.md      | edge-functions, frontend-inbox   |
+| `backend-supabase`  | claude-bs | **MERGED** at 8af2a2b. Migrations applied via Supabase MCP, RLS on, tables empty pending seed. | full-plan.md, agents/backend-supabase.md      | (unblocks edge-functions, frontend-inbox)   |
 | `frontend-inbox`    | TBD       | pending  | full-plan.md, peec-references/, agents/…      | deploy-and-glue                  |
 | `edge-functions`    | TBD       | pending  | full-plan.md (Edge fns section), schema       | deploy-and-glue                  |
 | `deploy-and-glue`   | TBD       | pending  | full-plan.md, all above                       | (final — auth + onboarding code only; Lovable handles deploy) |

@@ -28,6 +28,14 @@ Tavily LinkedIn coverage is uneven (per LinkedIn-research subagent). Reddit is r
 
 Drop Entire as required tier. Lovable will be used during build for iteration. Aikido for the security side-challenge.
 
+## 2026-04-26 — backend-supabase merged; migrations applied via Supabase MCP — agent-arch
+
+`backend-supabase` (e827a99 + 9ab354d) merged into `main` at `8af2a2b`. Migrations were applied to the cloud project (`pjyrhjbkpxuomfvaubkk`) directly via Supabase MCP `apply_migration` (no `supabase link` / `supabase db push` needed since the MCP has its own auth). Eight tables exist with RLS enabled.
+
+**Outstanding**: seed has not run. The seed script needs `SUPABASE_SERVICE_ROLE_KEY`, which the MCP cannot provide (correctly — service-role bypasses RLS and is human-only). federico must paste it once, then orchestrator runs `npm run seed`.
+
+**How to apply for next agents**: `edge-functions` is now unblocked (schema is on main). `frontend-inbox` can wire to real `api.ts` instead of stubs. `deploy-and-glue` can write `AuthGate.tsx` against the real client.
+
 ## 2026-04-26 — Lovable replaces Vercel for deployment — agent-arch
 
 federico is using Lovable (connected to the same Supabase project) to deploy `main` to a shareable URL and apply quick UI tweaks. Lovable auto-deploys on merge. No Vercel, no `vercel.json`, no CLI wiring inside this repo.
