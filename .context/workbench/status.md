@@ -14,7 +14,7 @@ Cleanup complete. v2 parallel-agent work (UI polish, live APIs + snapshot, curat
 | `backend-supabase`  | TBD       | pending  | full-plan.md, agents/backend-supabase.md      | edge-functions, frontend-inbox   |
 | `frontend-inbox`    | TBD       | pending  | full-plan.md, peec-references/, agents/…      | deploy-and-glue                  |
 | `edge-functions`    | TBD       | pending  | full-plan.md (Edge fns section), schema       | deploy-and-glue                  |
-| `deploy-and-glue`   | TBD       | pending  | full-plan.md, all above                       | (final)                          |
+| `deploy-and-glue`   | TBD       | pending  | full-plan.md, all above                       | (final — auth + onboarding code only; Lovable handles deploy) |
 
 ## Merge order
 

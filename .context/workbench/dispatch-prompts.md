@@ -156,51 +156,56 @@ HARD RULES:
 
 ---
 
-## Chat D — `deploy-and-glue`
+## Chat D — `deploy-and-glue` (renamed in spirit to "auth-and-onboarding" — kept as deploy-and-glue branch for continuity)
 
 ```
 You are joining the SWARM hackathon project as the deploy-and-glue agent.
 Branch: `deploy-and-glue`. You ONLY edit files in:
-  - vercel.json
   - src/components/AuthGate.tsx (new)
   - src/pages/Setup.tsx (new)
   - src/pages/Settings.tsx (new)
-  - .vercelignore, deployment configs
 
-You DEPEND ON backend-supabase landing api.ts and frontend-inbox landing the router.
-If those aren't on main yet, you can still:
-  - Set up Vercel + env vars (parallelizable)
-  - Sketch AuthGate / Setup / Settings against the contract in full-plan.md
+DEPLOYMENT NOTE: Vercel is OUT. federico runs Lovable directly outside this chat.
+Lovable is connected to the same Supabase project and auto-deploys `main` to a
+shareable URL. You do NOT touch deployment plumbing. No vercel.json, no CLI wiring.
+Your job is the in-repo auth + onboarding + settings code that Lovable picks up.
+
+You DEPEND ON backend-supabase landing api.ts on main. While you wait, you can sketch
+AuthGate / Setup / Settings against the contract in full-plan.md.
 
 Read these in order:
   1. /Users/federico/conductor/workspaces/peek-hackathon-track/minnetonka/CLAUDE.md
-  2. .context/plans/full-plan.md
+  2. .context/plans/full-plan.md  (note Stack section: Lovable, not Vercel)
   3. .context/workbench/README.md, status.md, ownership.md
   4. .context/workbench/agents/deploy-and-glue.md (your backlog)
 
 Your slice:
-  1. vercel link, vercel deploy. Configure env vars (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY,
-     VITE_PEEC_API_KEY, VITE_PEEC_PROJECT_ID, VITE_TAVILY_API_KEY, VITE_GEMINI_API_KEY).
-  2. Verify the deployed URL works in incognito (it'll show whatever frontend-inbox has shipped so far).
-  3. Build src/components/AuthGate.tsx — Supabase Auth magic-link.
-     For demo: detect session, if absent show a single "Sign in with magic link" button.
-     Pre-create a federico@... user owning Attio for demo session restore.
-  4. Build src/pages/Setup.tsx — 4-step wizard:
+  1. Build src/components/AuthGate.tsx — Supabase Auth magic-link.
+     - On mount: getSession(); if missing, render the sign-in screen.
+     - Sign-in screen: single email input + "Send magic link" button (supabase.auth.signInWithOtp).
+     - On session: render children. Provide a useBrand() hook downstream that reads the user's
+       owning brand_id from the brands table.
+     - For the demo, federico will pre-create a federico@... user owning Attio so the session
+       restores cleanly. Document the pre-creation step in your agents file.
+  2. Build src/pages/Setup.tsx — 4-step wizard:
      Step 1: domain input.
-     Step 2: competitors (auto-suggest from Peec API or paste).
+     Step 2: competitors (auto-suggest from Peec API or paste 2–3).
      Step 3: seed URLs (default to homepage / /blog / /about; let user edit).
-     Step 4: kick agent-context-ingest, subscribe to Realtime channel for the run,
-             show streaming progress, redirect to /inbox when status='done'.
-  5. Build src/pages/Settings.tsx — current brand info, list of seed URLs, "Re-ingest" button,
-     paginated list of context_chunks with their source URLs.
-  6. Final deploy. Confirm full e2e in incognito.
-  7. Append "ready to merge".
+     Step 4: trigger agent-context-ingest, subscribe to the agent_runs Realtime channel,
+             show streaming progress (step labels from the trace), redirect to /inbox when
+             status='done'.
+  3. Build src/pages/Settings.tsx — current brand info, list of seed URLs, "Re-ingest" button
+     that re-triggers agent-context-ingest, paginated list of context_chunks with source URLs.
+  4. Smoke-check by running locally (`npm run dev`). Lovable will deploy main automatically
+     once the orchestrator merges your branch — you do NOT deploy yourself.
+  5. Append "ready to merge" to your agents file.
 
 HARD RULES:
   - Stay in your ownership zone (claim App.tsx in lock.md if you need to wrap it in AuthGate).
-  - Append dated bullet to your agents file after every turn.
-  - Do NOT touch services, components/Sidebar/Inbox/etc.
-  - Do NOT push to main.
-  - STOP if Vercel/Supabase env wiring takes more than 30 minutes — there's likely a config
+  - Append a dated bullet to your agents file after every turn.
+  - Do NOT touch services, components/Sidebar/Inbox/Header.
+  - Do NOT push to main. The orchestrator merges, Lovable picks up.
+  - Do NOT touch vercel.json, deployment configs, or any infra plumbing — Lovable owns deploy.
+  - STOP if Supabase Auth or Realtime wiring takes more than 30 minutes — likely a config
     issue worth surfacing rather than working around. Append blocker and tell federico.
 ```

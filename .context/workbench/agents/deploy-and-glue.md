@@ -1,32 +1,33 @@
 # deploy-and-glue — running notes
 
-Owner: TBD. Branch: `deploy-and-glue`. Owns: `vercel.json`, `.vercelignore`, `src/components/AuthGate.tsx` (new), `src/pages/Setup.tsx` (new), `src/pages/Settings.tsx` (new), deployment configs.
+Owner: TBD. Branch: `deploy-and-glue`. Owns: `src/components/AuthGate.tsx` (new), `src/pages/Setup.tsx` (new), `src/pages/Settings.tsx` (new).
 
 ## Mission
 
-Get SWARM deployed on a public URL (Vercel + Supabase cloud). Build the onboarding wizard at `/setup` that takes a domain, kicks `agent-context-ingest`, streams progress, and lands on `/inbox`. Build `/settings` for brand admin. Wire auth.
+Build the in-repo onboarding + auth + settings code that Lovable picks up. **You do NOT touch deployment plumbing** — federico runs Lovable directly (connected to the same Supabase project) and Lovable auto-deploys `main` to a shareable URL.
+
+Build `AuthGate` (Supabase Auth magic-link), `/setup` wizard (domain → ingest → /inbox), and `/settings` (brand admin).
 
 ## Dependency
 
-You DEPEND on `backend-supabase` landing `api.ts` and `frontend-inbox` landing the router. Vercel + env wiring + sketches against the full-plan.md contract are parallelizable while you wait.
+You DEPEND on `backend-supabase` landing `api.ts` on main. While you wait, sketch components against the contract in `full-plan.md`.
 
 ## Backlog
 
-- [ ] Read `CLAUDE.md`, `.context/plans/full-plan.md`, `.context/workbench/{README,status,ownership}.md`.
-- [ ] `vercel link`, `vercel deploy`. Configure env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_PEEC_API_KEY`, `VITE_PEEC_PROJECT_ID`, `VITE_TAVILY_API_KEY`, `VITE_GEMINI_API_KEY`.
-- [ ] Verify deployed URL works in incognito.
-- [ ] Build `src/components/AuthGate.tsx` — Supabase Auth magic-link. For demo, pre-create a `federico@…` user owning Attio so session restore works.
-- [ ] Build `src/pages/Setup.tsx` — 4-step wizard (domain → competitors → seed URLs → ingestion stream → redirect to `/inbox`).
+- [ ] Read `CLAUDE.md`, `.context/plans/full-plan.md` (note Stack section says Lovable, not Vercel), `.context/workbench/{README,status,ownership}.md`.
+- [ ] Build `src/components/AuthGate.tsx` — Supabase Auth magic-link. Sign-in screen if no session; render children if signed in. Document the federico@... pre-creation step here.
+- [ ] Build `src/pages/Setup.tsx` — 4-step wizard (domain → competitors → seed URLs → ingestion stream via Realtime → redirect to `/inbox`).
 - [ ] Build `src/pages/Settings.tsx` — current brand info, list of seed URLs, "Re-ingest" button, paginated `context_chunks` with their source URLs.
-- [ ] Final deploy. Confirm full e2e in incognito.
+- [ ] Smoke-check locally with `npm run dev`. Lovable handles deploy automatically once orchestrator merges.
 
 ## Hard constraints
 
 - Stay in ownership zone (claim `App.tsx` in `lock.md` if you need to wrap it in `AuthGate`).
 - Append a dated bullet to this file after every turn.
 - Do NOT touch services, `components/{Sidebar,Inbox,Header}`.
+- Do NOT touch `vercel.json`, deployment configs, or any infra plumbing — Lovable owns deploy.
 - Do NOT push to `main`.
-- STOP if Vercel/Supabase env wiring takes more than 30 minutes — likely a config issue worth surfacing rather than working around. Append blocker and tell federico.
+- STOP if Supabase Auth or Realtime wiring takes more than 30 minutes — likely a config issue worth surfacing. Append blocker and tell federico.
 
 ## Log
 

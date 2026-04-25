@@ -36,13 +36,15 @@ The voice profile is computed during ingestion. The brand context corpus is the 
 
 ### Stack
 
-- Frontend: Vite + React + TS, deployed on Vercel.
+- Frontend: Vite + React + TS. **Deployed via Lovable** (connected to the same Supabase project; Lovable handles preview URLs, env wiring, and small AI-assisted UI fixes outside this codebase).
 - Backend: Supabase (Postgres + pgvector + Edge Functions + Auth + Realtime).
 - AI: Google Gemini (`gemini-2.5-flash-lite` for completions, `text-embedding-004` for embeddings).
 - Discovery: Tavily Search + Tavily Extract (proxied via Vite in dev, direct in prod).
 - Visibility intelligence: Peec AI REST API.
 
 Project ref already in `.env.example`: `SUPABASE_PROJECT_REF=pjyrhjbkpxuomfvaubkk`.
+
+**Deployment note:** federico manages Lovable directly (outside any Claude chat). After each merge to `main`, Lovable re-deploys automatically. Quick UI tweaks happen in Lovable's chat interface and land back in this repo. No Vercel, no `vercel.json`.
 
 ### Schema (`supabase/migrations/0001_init.sql`)
 
