@@ -1,40 +1,42 @@
-# Status — SWARM build
+# Status — SWARM build (v3 plan active)
 
-Last updated: 2026-04-25 (orchestrator)
+Last updated: 2026-04-26 (orchestrator)
 
 ## Current state
 
-- Vite + React + TS scaffold rendering on `localhost:5173`. Mock-fallback discovery returns 16 deduped opportunity cards, voice profile, trends rail, visibility scoreboard.
-- Peec API key works for `/brands` and `/topics`. Report endpoints accept the schema but project has no chat data — services degrade to rich mocks (sourced from `peec-ai-exploration.md`).
-- Tavily proxied through Vite at `/_tavily`; CORS resolved. Falls back to curated mock pool when API errors.
-- Gemini hits 429 on cold start — services degrade gracefully, mocks render.
-- Branch state: `main` and `swarm-build` at the same SHA. Orchestrator is on `agent-arch` continuing.
+Cleanup complete. v2 parallel-agent work (UI polish, live APIs + snapshot, curated demo data) landed on `main` at commit `4684bff`. Workbench bootstrapped for v3. Four parallel chats are dispatched (or pending dispatch) — see `dispatch-prompts.md` and `agents/*.md` for each chat's backlog.
 
 ## Active workstreams
 
-| Branch | Agent | Status | Owner |
-|---|---|---|---|
-| `agent-arch` | Three agents extracted: `src/agents/{trends,context,interception}.ts`. Discovery refactored as a thin orchestrator. `BrandContextChunk` + `BrandContextIndex` + `AgentRunOptions` types added. Hardcoded Attio Brand Context corpus (8 chunks) for the RAG layer. | in progress | federico + claude (this chat) |
-| `ui-polish` | Header extracted, ConversationCard / Radar / VisibilityBar / TrendsRail / VoiceProfilePanel polished, `.peec-row` / `.peec-eyebrow` / modal-scrim / btn variants added in app.css. Working in another Conductor chat. | active | dispatched |
-| `live-apis` | `src/data/snapshot.json` shipped. peec.ts + tavily.ts now snapshot-default with `force` opts. `getApiStatus()` registry exposes peec/tavily/gemini freshness. Working in another Conductor chat. | active | dispatched |
-| `demo-data` | Not yet active. | pending | TBD |
+| Branch              | Owner     | Status   | Reads                                         | Blocks                           |
+|---------------------|-----------|----------|-----------------------------------------------|----------------------------------|
+| `agent-arch`        | this chat | orchestrator | all                                       | (merges others; resolves locks)  |
+| `backend-supabase`  | TBD       | pending  | full-plan.md, agents/backend-supabase.md      | edge-functions, frontend-inbox   |
+| `frontend-inbox`    | TBD       | pending  | full-plan.md, peec-references/, agents/…      | deploy-and-glue                  |
+| `edge-functions`    | TBD       | pending  | full-plan.md (Edge fns section), schema       | deploy-and-glue                  |
+| `deploy-and-glue`   | TBD       | pending  | full-plan.md, all above                       | (final)                          |
+
+## Merge order
+
+1. `backend-supabase` → `main` (schema + api + lib).
+2. `edge-functions` → `main` (depends on schema being on `main`).
+3. `frontend-inbox` → `main` (depends on `api.ts` shape).
+4. `deploy-and-glue` → `main` (depends on everything).
+
+The orchestrator merges in this order. Agents do NOT push to `main` themselves.
 
 ## Open blockers
 
-- None right now. The mocks are good enough that any agent can render the full UI without live keys.
+None at start. Each chat surfaces its own blockers in its `agents/<name>.md` log file.
 
-## Visual fidelity gap (notes for ui-polish)
+## Visual fidelity gap
 
-Peec's actual UI (see `.context/peec-references/`) has:
-- **Dark left sidebar** (~220px), dark top bar, cream/white content area. Our current Radar has a white top bar and no sidebar.
-- **Filter chip bar** above content (`Fyxer ▾  All time ▾  All Tags ▾  All Models ▾`).
-- **Breadcrumb** at top of content area (`Sources › Domains`).
-- Cards sit on cream `#fafafa` page bg with subtle shadow, not on white.
-- Sidebar has section labels (General / Sources / Actions / Agent analytics / Project / Company) with small icons.
-- "Get set up" progress widget at bottom-left of sidebar.
+Sidebar is the biggest remaining gap from v2. Peec UI screenshots in `.context/peec-references/`; `visual-references.md` catalogues each. `frontend-inbox` is responsible for closing this.
 
-The real Peec logo is in `public/peec-logo.jpg` (jpg, transparent-ish on light). Stacked rounded rectangles + "Peec AI" wordmark.
+## UX density problem (open question)
 
-## Latest decisions
+The existing 3-column composition is too dense, too text-heavy, no symbols, no progressive disclosure. v3 collapses to a single inbox + drawer. Detailed visual choices (icons, symbols, what hides behind toggles, filter bar shape, row composition, empty states, keyboard nav) are flagged for a dedicated UX sub-agent pass before merging `frontend-inbox`. The implementation in v3 covers the structural shift; visual fidelity follows.
+
+## Decisions
 
 See `decisions.md`.
