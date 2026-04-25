@@ -1,0 +1,245 @@
+/* InboxRow — rich visual treatment. Owned by the visual-inbox-rows agent.
+   All selectors are scoped to `.swarm-row.is-rich` so that base `.swarm-row`
+   styles in `swarm.css` continue to apply but are overridden here where needed. */
+
+.swarm-row.is-rich {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px 11px 18px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    transform 140ms ease,
+    box-shadow 140ms ease;
+}
+
+/* 3px left rail in the kind colour. Sits inside the row's left padding so
+   we don't disturb the grid columns. */
+.swarm-row.is-rich .irow-rail {
+  position: absolute;
+  left: 6px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 9999px;
+  opacity: 0.55;
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.swarm-row.is-rich.is-trend .irow-rail {
+  background: var(--peec-badge-violet-text);
+}
+.swarm-row.is-rich.is-opportunity .irow-rail {
+  background: var(--peec-badge-blue-text);
+}
+.swarm-row.is-rich.is-outdated .irow-rail {
+  background: var(--peec-badge-amber-text);
+}
+.swarm-row.is-rich.is-mention .irow-rail {
+  background: var(--peec-badge-emerald-text);
+}
+
+/* Hover lift — translate Y plus a soft shadow that reads as depth. */
+.swarm-row.is-rich:hover {
+  background: var(--peec-bg-white);
+  border-color: var(--peec-stroke-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 2px rgba(23, 23, 23, 0.04), 0 0 0 1px var(--peec-stroke-primary);
+}
+
+.swarm-row.is-rich:hover .irow-rail {
+  opacity: 0.9;
+  transform: scaleY(1.05);
+}
+
+.swarm-row.is-rich.is-selected {
+  background: var(--peec-bg-white);
+  border-color: var(--peec-stroke-secondary);
+  box-shadow: var(--peec-shadow-xs);
+  transform: translateY(0);
+}
+
+.swarm-row.is-rich.is-selected .irow-rail {
+  opacity: 1;
+  width: 4px;
+  left: 5px;
+}
+
+/* Kind icon block (28px). Reuse the colour tokens from swarm.css — same look. */
+.swarm-row.is-rich .irow-kind {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+/* Body */
+.swarm-row.is-rich .irow-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.swarm-row.is-rich .irow-title {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.112px;
+  color: var(--peec-fg-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.swarm-row.is-rich .irow-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--peec-fg-tertiary);
+  letter-spacing: -0.05px;
+  min-width: 0;
+}
+
+.swarm-row.is-rich .irow-meta-dot {
+  color: var(--peec-fg-quaternary);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.swarm-row.is-rich .irow-platform {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--peec-fg-secondary);
+}
+
+.swarm-row.is-rich .irow-platform-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  color: var(--peec-fg-secondary);
+}
+
+/* Per-platform tinting on the glyph — monochrome dot with a hint of brand */
+.swarm-row.is-rich .irow-platform-glyph.is-reddit { color: #ff4500; }
+.swarm-row.is-rich .irow-platform-glyph.is-linkedin { color: #0a66c2; }
+.swarm-row.is-rich .irow-platform-glyph.is-x { color: #171717; }
+.swarm-row.is-rich .irow-platform-glyph.is-editorial { color: var(--peec-badge-violet-text); }
+.swarm-row.is-rich .irow-platform-glyph.is-owned { color: var(--peec-badge-emerald-text); }
+.swarm-row.is-rich .irow-platform-glyph.is-peec { color: var(--peec-feature-base); }
+.swarm-row.is-rich .irow-platform-glyph.is-generic { color: var(--peec-fg-tertiary); }
+
+.swarm-row.is-rich .irow-platform-label {
+  color: var(--peec-fg-secondary);
+}
+
+.swarm-row.is-rich .irow-domain {
+  color: var(--peec-fg-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Time chip — soft background pill */
+.swarm-row.is-rich .irow-time-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  background: var(--peec-bg-secondary);
+  color: var(--peec-fg-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* End column — sparkline above ROI bar */
+.swarm-row.is-rich .irow-end {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.swarm-row.is-rich .irow-spark {
+  display: inline-flex;
+  align-items: center;
+  height: 14px;
+  color: var(--peec-fg-tertiary);
+  opacity: 0.85;
+}
+
+.swarm-row.is-rich:hover .irow-spark {
+  opacity: 1;
+}
+
+/* ROI mini-bar with inline value */
+.swarm-row.is-rich .irow-roi {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-feature-settings: 'tnum' 1;
+}
+
+.swarm-row.is-rich .irow-roi-track {
+  position: relative;
+  width: 56px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--peec-bg-tertiary);
+  overflow: hidden;
+}
+
+.swarm-row.is-rich .irow-roi-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 9999px;
+  transition: width 220ms ease;
+}
+
+.swarm-row.is-rich .irow-roi.is-high .irow-roi-fill {
+  background: var(--peec-badge-green-text);
+}
+.swarm-row.is-rich .irow-roi.is-mid .irow-roi-fill {
+  background: var(--peec-badge-blue-text);
+}
+.swarm-row.is-rich .irow-roi.is-low .irow-roi-fill {
+  background: var(--peec-badge-yellow-text);
+}
+
+.swarm-row.is-rich .irow-roi-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: -0.05px;
+  min-width: 50px;
+  justify-content: flex-end;
+}
+
+.swarm-row.is-rich .irow-roi.is-high .irow-roi-value {
+  color: var(--peec-badge-green-text);
+}
+.swarm-row.is-rich .irow-roi.is-mid .irow-roi-value {
+  color: var(--peec-badge-blue-text);
+}
+.swarm-row.is-rich .irow-roi.is-low .irow-roi-value {
+  color: var(--peec-badge-yellow-text);
+}
