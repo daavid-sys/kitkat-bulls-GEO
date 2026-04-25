@@ -1,5 +1,5 @@
-import type { VoiceProfile } from '../types';
-import type { PeecDomainReportRow } from '../services/peec';
+import type { VoiceProfile } from '../../types';
+import type { PeecDomainReportRow } from '../../services/peec';
 
 export function VoiceProfilePanel({
   voice,

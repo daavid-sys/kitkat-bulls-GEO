@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import type { ConversationOpportunity, DraftScaffold, VoiceProfile } from '../types';
-import { generateDraftScaffold } from '../services/gemini';
+import type { ConversationOpportunity, DraftScaffold, VoiceProfile } from '../../types';
+import { generateDraftScaffold } from '../../services/gemini';
 
 type FieldKey = 'opener' | 'angle' | 'supporting' | 'cta';
 

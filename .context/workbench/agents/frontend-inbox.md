@@ -31,4 +31,10 @@ Replace the 3-column Radar with a single ranked Inbox feed + right-slide TaskDra
 
 ## Log
 
-- _empty — agent has not started yet._
+- 2026-04-26 — Picked up the slice. Read CLAUDE.md, full-plan.md, design-system.md, workbench docs, all peec-references screenshots. Claimed `src/App.tsx` and `package.json` in `lock.md`.
+- 2026-04-26 — Moved 6 legacy components (Radar, ConversationCard, DraftPanel, VisibilityBar, TrendsRail, VoiceProfilePanel) into `src/components/legacy/`; rewired their imports.
+- 2026-04-26 — Built `Sidebar.tsx` (220px dark rail, project switcher, 5 sections under Workspace/Intelligence/Account groups, "Trends agent" status widget, Peec footer link), `InboxRow.tsx` (kind icon + title + domain + ROI bolt badge), `TaskDrawer.tsx` (left/right panes, top-right "Open source" button → external link, citations strip with 3 max), `Inbox.tsx` (single ranked feed, ROI sort, 6-task local stub matching the v3 schema), `FilterBar.tsx` (kind tabs).
+- 2026-04-26 — Extended `Header.tsx` with `AppHeader` (breadcrumb + status pill); kept legacy `Header` export for back-compat. Added `src/styles/swarm.css` with all new classes.
+- 2026-04-26 — Wired `react-router-dom` in `App.tsx`. Routes: `/` (→ `/inbox`), `/inbox`, `/trends`, `/sources`, `/brand`, `/settings`, `/setup`. Non-Inbox pages render placeholders.
+- 2026-04-26 — `npm run typecheck` clean. Pre-existing `import.meta.env` errors in `services/{peec,gemini,tavily}.ts` are out of my ownership zone and were present on `main` before this branch.
+- 2026-04-26 — Ready to merge.

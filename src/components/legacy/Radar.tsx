@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import type { ConversationOpportunity } from '../types';
-import type { RadarSnapshot } from '../services/discovery';
+import type { ConversationOpportunity } from '../../types';
+import type { RadarSnapshot } from '../../services/discovery';
 import { ConversationCard } from './ConversationCard';
 import { DraftPanel } from './DraftPanel';
 import { VisibilityBar } from './VisibilityBar';

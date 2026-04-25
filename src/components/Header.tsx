@@ -1,3 +1,86 @@
+/**
+ * AppHeader — used in the v3 shell where the Sidebar lives at the left.
+ * Replaces the v2 SWARM-branded `Header` (which still ships for legacy Radar).
+ *
+ * Status pill is wired to `getApiStatus()`. The real impl ships from
+ * `services/api.ts` (owned by `backend-supabase`). Until then we stub locally.
+ */
+export type ApiStatus = {
+  state: 'ok' | 'stub' | 'error';
+  label: string;
+};
+
+export function AppHeader({
+  breadcrumb,
+  status,
+  onRefresh,
+  refreshing,
+}: {
+  breadcrumb: ReadonlyArray<string>;
+  status: ApiStatus;
+  onRefresh?: () => void;
+  refreshing?: boolean;
+}) {
+  return (
+    <header className="swarm-header">
+      <div className="swarm-header-left">
+        <div className="swarm-breadcrumb" aria-label="Breadcrumb">
+          {breadcrumb.map((seg, i) => (
+            <span
+              key={`${seg}-${i}`}
+              className={i === breadcrumb.length - 1 ? 'swarm-breadcrumb-current' : undefined}
+            >
+              {seg}
+              {i < breadcrumb.length - 1 && (
+                <span className="swarm-breadcrumb-sep" style={{ marginLeft: 6 }}>
+                  ›
+                </span>
+              )}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-1.5" style={{ display: 'flex', gap: 6 }}>
+        <span
+          className="swarm-status-pill"
+          title={status.label}
+          aria-label={`API status: ${status.label}`}
+        >
+          <span className={`swarm-status-dot${status.state === 'stub' ? ' is-stub' : status.state === 'error' ? ' is-error' : ''}`} />
+          {status.label}
+        </span>
+        {onRefresh && (
+          <button
+            className="peec-btn peec-btn-ghost peec-btn-sm"
+            onClick={onRefresh}
+            disabled={refreshing}
+            aria-label="Refresh"
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 16 16"
+              fill="none"
+              className={refreshing ? 'animate-spin' : ''}
+            >
+              <path
+                d="M2 8a6 6 0 0 1 10.5-3.97V3a.75.75 0 0 1 1.5 0v3a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1 0-1.5h1.32A4.5 4.5 0 0 0 3.5 8a.75.75 0 0 1-1.5 0Z"
+                fill="currentColor"
+              />
+              <path
+                d="M14 8a6 6 0 0 1-10.5 3.97V13a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H4.43A4.5 4.5 0 0 0 12.5 8a.75.75 0 0 1 1.5 0Z"
+                fill="currentColor"
+              />
+            </svg>
+            {refreshing ? 'Refreshing' : 'Refresh'}
+          </button>
+        )}
+      </div>
+    </header>
+  );
+}
+
 export function Header({
   brandName,
   onRefresh,

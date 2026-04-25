@@ -1,6 +1,6 @@
-import type { VisibilityGap } from '../types';
-import type { PeecBrandReportRow } from '../services/peec';
-import { PeecGlyph } from './Header';
+import type { VisibilityGap } from '../../types';
+import type { PeecBrandReportRow } from '../../services/peec';
+import { PeecGlyph } from '../Header';
 
 export function VisibilityBar({
   brand,

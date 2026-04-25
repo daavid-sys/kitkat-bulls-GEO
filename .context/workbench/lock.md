@@ -6,7 +6,8 @@ When you need to edit a file outside your ownership zone (`ownership.md`), add a
 
 | File | Claimed by | Branch | Reason | Claimed at |
 |---|---|---|---|---|
-| _none_ | | | | |
+| `src/App.tsx` | frontend-inbox | `frontend-inbox` | Wire react-router-dom + Sidebar layout | 2026-04-26 |
+| `package.json` | frontend-inbox | `frontend-inbox` | Add react-router-dom dependency | 2026-04-26 |
 
 ## How to claim
 
