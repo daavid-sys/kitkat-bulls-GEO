@@ -10,7 +10,7 @@ import type {
 import type { TavilyResult } from './tavily';
 
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
-const MODEL = 'gemini-2.5-flash';
+const MODEL = 'gemini-2.5-flash-lite';
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
 
 interface GeminiPart { text: string }
