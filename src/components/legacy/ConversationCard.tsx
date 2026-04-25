@@ -1,4 +1,4 @@
-import type { ConversationOpportunity } from '../types';
+import type { ConversationOpportunity } from '../../types';
 
 export function ConversationCard({
   opportunity,

@@ -1,4 +1,4 @@
-import type { Trend, VisibilityGap } from '../types';
+import type { Trend, VisibilityGap } from '../../types';
 
 export function TrendsRail({
   trends,
