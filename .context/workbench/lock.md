@@ -6,7 +6,7 @@ When you need to edit a file outside your ownership zone (`ownership.md`), add a
 
 | File | Claimed by | Branch | Reason | Claimed at |
 |---|---|---|---|---|
-| _none_ | | | | |
+| src/pages/Inbox.tsx | claude-wia | wire-inbox-api | replace stub with getInbox + lazy getDraftFor | 2026-04-26 |
 
 ## How to claim
 
