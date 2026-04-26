@@ -33,4 +33,9 @@ You DEPEND on `backend-supabase` landing the schema on `main`. If `supabase/migr
 
 ## Log
 
-- _empty — agent has not started yet._
+- 2026-04-26 (edge-context-ingest) — built `supabase/functions/agent-context-ingest/index.ts`. Pipeline: Tavily Extract (advanced, markdown) with 1 retry → sentence-aware chunker (~320-token target, 40-token overlap) → Gemini `text-embedding-004` (768d, taskType=RETRIEVAL_DOCUMENT) → bulk insert `context_chunks` (delete-then-insert per source_url for idempotency) → Gemini 2.5-flash-lite voice profile from first 3 chunks per URL → update `brands.voice_profile`. Opens `agent_runs(agent_kind='context_ingest', status='running')`, flushes traces after each step, marks `done`/`failed` on exit.
+- Blocker: cannot deploy from this env — `SUPABASE_ACCESS_TOKEN`, `TAVILY_API_KEY`, `GEMINI_API_KEY` not present. Federico to run, from repo root with `.env` loaded:
+  - `npx supabase link --project-ref pjyrhjbkpxuomfvaubkk`
+  - `npx supabase secrets set TAVILY_API_KEY=… GEMINI_API_KEY=…`
+  - `npx supabase functions deploy agent-context-ingest --project-ref pjyrhjbkpxuomfvaubkk`
+  - then invoke for Attio (brand_id `11111111-1111-4111-8111-000000000001`) with seed_urls `[attio.com, /manifesto, /blog, /customers, /integrations]`. Expect 40–80 chunks.
