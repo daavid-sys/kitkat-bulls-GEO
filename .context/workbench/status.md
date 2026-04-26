@@ -16,6 +16,7 @@ Last updated: 2026-04-26 (orchestrator)
 | `visual-hero-strip` | claude-vh | **MERGED**. InboxHero strip (visibility + sparkline, queued lift, topic gap mini-bar, agent pulse) above the inbox. | full-plan.md, peec-references/, agents/visual-hero-strip.md | — |
 | `visual-inbox-rows` | claude-vir | **MERGED**. Kind rail, real platform glyphs, ROI mini-bar, deterministic sparkline, hover lift. | InboxRow.tsx, inbox-row.css | — |
 | `visual-task-drawer` | claude-vtd | **MERGED**. Rich drawer: header band w/ source-URL invariant, impact bar (lift only, no fabricated Peec numbers), 4 draft cards, citation strip, action bar. | TaskDrawer.tsx, task-drawer.css | — |
+| `wire-inbox-api`     | claude-wia | **MERGED**. Inbox.tsx now hits real getInbox(ATTIO_BRAND_ID); lazy getDraftFor on select; empty-state w/ /settings link. Citations stay empty until a chunk-hydrate follow-up (drafts only carry context_chunk_ids[]). | Inbox.tsx | — |
 | `edge-functions`    | TBD       | pending  | full-plan.md (Edge fns section), schema       | deploy-and-glue                  |
 | `deploy-and-glue`   | TBD       | pending  | full-plan.md, all above                       | (final — auth + onboarding code only; Lovable handles deploy) |
 
